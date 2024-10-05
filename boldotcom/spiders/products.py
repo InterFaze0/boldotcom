@@ -15,7 +15,11 @@ class ProductsSpider(scrapy.Spider):
         #PAGINATION
     def parse_detail(self,response):
         itemTitle = response.css("span[class = 'u-mr--xs']::text").get()
-        itemPrice = response.css("span[class = 'promo-price']::text").get().strip() + "," + response.css("sup[class='promo-price__fraction']::text").get()
+        try:
+            itemPrice = response.css("span[class = 'promo-price']::text").get().strip() + "," + response.css("sup[class='promo-price__fraction']::text").get()
+        except:
+            itemPrice = response.css("span[class = 'promo-price']::text").get().strip()
+
 
         for i in response.css("div[class = 'specs__row']"):
             if i.css("dt[class='specs__title']::text").get().strip()=="EAN":
